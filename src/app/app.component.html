@@ -1,20 +1,30 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<mat-card>
+    <mat-card-title>Send a message</mat-card-title>
+    <mat-form-field style="width: 100%">
+        <input matInput style="width: 100%" color="primary" placeholder="Username" [ngModel]="websocketService.username" (change)="websocketService.username = $event.target.value" (keydown)="keydown($event)" autofocus>
+    </mat-form-field>
+    <mat-form-field style="width: 100%">
+        <input matInput style="width: 100%" color="primary" placeholder="Message" [(ngModel)]="currentMessage" (keydown)="keydown($event)" autofocus>
+    </mat-form-field>
+    <p>
+    <button mat-raised-button color="primary" (click)="sendMessage()">Send message</button>
+</mat-card>
 
+<mat-card>
+    <mat-card-title>Last messages</mat-card-title>
+    <div *ngFor="let message of websocketService.lastMessages; let i = index">
+        <mat-divider *ngIf="i !== 0"></mat-divider>
+        <div style="padding: 20px">{{ message }}</div>
+    </div>
+
+    <span *ngIf="websocketService.lastMessages.length === 0">
+        No messages right now.
+    </span>
+</mat-card>
+
+<mat-card>
+    <mat-card-title>Members</mat-card-title>
+    <ul>
+        <li *ngFor="let user of websocketService.members">{{ user }}</li>
+    </ul>
+</mat-card>
