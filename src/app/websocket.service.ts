@@ -25,7 +25,10 @@ export class WebsocketService {
   constructor() {
     this.socket = io('http://localhost:3000');
 
-    this.socket.on('connect', () => console.log('connected'));
+    this.socket.on('connect', () => {
+      console.log('connected');
+      this.socket.emit('username', this._username);
+    });
     this.socket.on('disconnect', () => console.log('disconnected'));
     this.socket.on('message', data => this.receiveMessage(data));
     this.socket.on('members', members => {
